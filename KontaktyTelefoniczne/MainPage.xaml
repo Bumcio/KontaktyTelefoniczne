@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Models="clr-namespace:KontaktyTelefoniczne.Models"
+             x:Class="KontaktyTelefoniczne.MainPage"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, *">
+
+        <Label Grid.Row="0"
+               Text="KONTAKTY TELEFONICZNE"
+               Style="{StaticResource Headline}"
+               SemanticProperties.HeadingLevel="Level1"
+               HorizontalOptions="Fill"
+               HorizontalTextAlignment="Center"
+               TextColor="White"
+               BackgroundColor="#191970"
+               Padding="20"/>
+        
+        <Grid Grid.Row="1" 
+              ColumnDefinitions="*,Auto"
+              Padding="10"
+              ColumnSpacing="10">
+
+            <SearchBar Grid.Column="0"
+                       Placeholder="Szukaj kontaktów..."
+                       HeightRequest="50"
+                       TextColor="Black"
+                       FontSize="18"
+                       TextChanged="SearchBar_TextChanged"
+                       BackgroundColor="Transparent"
+                       PlaceholderColor="Gray"/>
+
+            <Button Grid.Column="1"
+                    Text="+ Dodaj kontakt"
+                    FontSize="16"
+                    VerticalOptions="Center"
+                    BackgroundColor="#191970"
+                    TextColor="White"
+                    Clicked="OnDodajKontaktClicked"/>
+        </Grid>
+
+        <Frame Grid.Row="2" 
+               x:Name="FormularzFrame"
+               IsVisible="False"
+               Margin="10"
+               Padding="15"
+               BorderColor="#191970"
+               CornerRadius="10"
+               BackgroundColor="#F5F5F5">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="NOWY KONTAKT" FontSize="18" FontAttributes="Bold" TextColor="#191970" HorizontalOptions="Center"/>
+
+                <Entry x:Name="EntryImie" Placeholder="Imię" TextColor="Black"/>
+                <Entry x:Name="EntryNazwisko" Placeholder="Nazwisko" TextColor="Black"/>
+                <Entry x:Name="EntryTelefon" Placeholder="Telefon" Keyboard="Telephone" TextColor="Black"/>
+                <Entry x:Name="EntryEmail" Placeholder="Email" Keyboard="Email" TextColor="Black"/>
+
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="End">
+                    <Button Text="Zapisz kontakt" BackgroundColor="#191970" TextColor="White" Clicked="OnZapiszClicked"/>
+                    <Button Text="Anuluj" BackgroundColor="Gray" TextColor="White" Clicked="OnAnulujClicked"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+
+        <BoxView Grid.Row="3" 
+                 HeightRequest="2" 
+                 Color="#191970" 
+                 HorizontalOptions="Fill" 
+                 Margin="0,5"/>
+        
+        <CollectionView Grid.Row="4" 
+                        x:Name="KontaktyCollectionView">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:Kontakt">
+                    <Frame CornerRadius="8" 
+                           Padding="10" 
+                           Margin="10,5" 
+                           BackgroundColor="#F9F9F9" 
+                           HasShadow="False"
+                           BorderColor="#DDD">
+
+                        <Grid ColumnDefinitions="Auto, *, Auto" 
+                              RowDefinitions="Auto, Auto, Auto" 
+                              ColumnSpacing="15" 
+                              RowSpacing="2">
+                            
+                            <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
+                                   WidthRequest="50" HeightRequest="50"
+                                   CornerRadius="25"
+                                   Padding="0"
+                                   HasShadow="False"
+                                   BackgroundColor="{Binding KolorAwatara}"
+                                   BorderColor="Transparent"
+                                   VerticalOptions="Center">
+                                <Label Text="{Binding Inicjaly}" 
+                                       TextColor="White" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                            
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="5" VerticalOptions="Center">
+                                <Label Text="{Binding Imie}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="{Binding Nazwisko}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                            </HorizontalStackLayout>
+
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Telefon}" FontSize="14" TextColor="DarkGray"/>
+
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Email}" FontSize="14" TextColor="DarkGray"/>
+
+                            <ImageButton Grid.Row="0" Grid.RowSpan="3" Grid.Column="2"
+                                         Source="dotnet_bot.png" 
+                                         Aspect="AspectFit"
+                                         HeightRequest="24"
+                                         WidthRequest="24"
+                                         VerticalOptions="Center"
+                                         Clicked="OnUsunClicked"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
